@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriVerse Price Prediction</title>
+</head>
+<body>
+
+    <h1>AgriVerse Price Prediction</h1>
+
+    <input type="text" id="crop" placeholder="Enter Crop">
+    <input type="text" id="location" placeholder="Enter Location">
+    <button onclick="predict()">Predict</button>
+
+    <h2 id="result"></h2>
+
+<script>
+async function predict() {
+
+    const crop = document.getElementById("crop").value;
+    const location = document.getElementById("location").value;
+
+    const response = await fetch("http://127.0.0.1:8000/get-price", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            crop: crop,
+            location: location
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("result").innerHTML =
+        "Estimated Price: " + data.estimated_price +
+        "<br>Trend: " + data.trend +
+        "<br>Advice: " + data.advice;
+}
+</script>
+
+</body>
+</html>
